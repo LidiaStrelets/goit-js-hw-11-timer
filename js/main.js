@@ -1,18 +1,10 @@
-const refs = {
-  days: document.querySelector('span[data-value="days"]'),
-  hours: document.querySelector('span[data-value="hours"]'),
-  minutes: document.querySelector('span[data-value="mins"]'),
-  seconds: document.querySelector('span[data-value="secs"]'),
-};
-
 class CountdownTimer {
   constructor({ selector, targetDate, updateTimerData }) {
     this.selector = selector;
     this.targetDate = targetDate;
     this.remainingTime = 0;
-    this.updateTimerData = updateTimerData;
 
-    this.setTime();
+    this.switchTime();
   }
   setTime() {
     const currentTime = new Date();
@@ -37,19 +29,24 @@ class CountdownTimer {
   pad(value) {
     return String(value).padStart(2, '0');
   }
+
+  updateTimerData({ days, hours, mins, secs }) {
+    const timerRef = document.querySelector(`${this.selector}`);
+    const refs = {
+      days: timerRef.querySelector('span[data-value="days"]'),
+      hours: timerRef.querySelector('span[data-value="hours"]'),
+      minutes: timerRef.querySelector('span[data-value="mins"]'),
+      seconds: timerRef.querySelector('span[data-value="secs"]'),
+    };
+
+    refs.days.textContent = days;
+    refs.hours.textContent = hours;
+    refs.minutes.textContent = mins;
+    refs.seconds.textContent = secs;
+  }
 }
 
 const timer = new CountdownTimer({
   selector: '#timer-1',
   targetDate: new Date('December 25, 2025'),
-  updateTimerData,
 });
-
-timer.switchTime();
-
-function updateTimerData({ days, hours, mins, secs }) {
-  refs.days.textContent = days;
-  refs.hours.textContent = hours;
-  refs.minutes.textContent = mins;
-  refs.seconds.textContent = secs;
-}
